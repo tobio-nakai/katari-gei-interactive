@@ -64,7 +64,7 @@
 	<path id="buddhist-blind-overlap-shape_00000021805364863000084490000001115693414842082199_" class="st7" d="M256.7,888.9h305.4
 		v32H256.7c-11.1,0-16.7-5.3-16.7-16S245.6,888.9,256.7,888.9z"/>
 </g>
-<g id="dash-gidayu-takemoto-branch_00000078039961899009030320000014675756955346647943_">
+<g id="dash-gidayu-takemoto-branch">
 	<path id="dash-gidayu-takemoto-branch-line_00000080896622645711147540000010127919209056952248_" class="st8" d="M1276.1,702.8
 		V422.6"/>
 	<polygon id="dash-gidayu-takemoto-branch-arrow-end_00000083797578607542043600000010183687364774472360_" class="st9" points="
@@ -154,13 +154,13 @@
 	<polygon id="solid-kugutsu-ningyo-arrow-end_00000086672658467581978570000001901617285240789667_" class="st9" points="988,720.9 
 		979.5,725.4 979.5,716.4 	"/>
 </g>
-<g id="solid-shomyo-saimon-trunk_00000046337243619960585910000005301001997129634197_">
+<g id="solid-shomyo-saimon-trunk">
 	<path id="solid-shomyo-saimon-trunk-line_00000114071265785155672050000012198651492726207616_" class="st23" d="M219,956.2V838.4
 		h164"/>
 	<polygon id="solid-shomyo-saimon-trunk-arrow-end_00000083050920286109936080000017919160282330317960_" class="st9" points="
 		383,838.4 374.5,843.4 374.5,833.4 	"/>
 </g>
-<g id="solid-shomyo-hoyo-biwa-branch_00000170250986422602841200000014319796482968856234_">
+<g id="solid-shomyo-hoyo-biwa-branch">
 	<path id="solid-shomyo-hoyo-biwa-branch-line_00000147194830036457353240000008569232035145965480_" class="st23" d="M219,904.4h20
 		"/>
 	<polygon id="solid-shomyo-hoyo-biwa-branch-arrow-end_00000041271100053454869960000001545469953024533907_" class="st9" points="
@@ -194,7 +194,7 @@
 	<polygon id="solid-kojoruri-kato-branch-arrow-end_00000157986899004934570050000013227764129066522754_" class="st9" points="
 		1152.1,556.6 1143.4,561.1 1143.4,552.1 	"/>
 </g>
-<g id="solid-kojoruri-gidayu_00000040539065439164889110000001134908366652174523_">
+<g id="solid-kojoruri-gidayu">
 	<path id="solid-kojoruri-gidayu-line_00000165929075934890620440000014496163480885142695_" class="st23" d="M1316.1,829.4v-36.7
 		h-185.9"/>
 	<polygon id="solid-kojoruri-gidayu-arrow-end_00000044161165015989015240000004518158857860173759_" class="st9" points="
@@ -234,7 +234,7 @@
 	<polygon id="solid-tomimoto-kiyomoto-arrow-end_00000069395053874377982960000017376983412565986494_" class="st9" points="
 		1239.1,295.6 1230.4,300.1 1230.4,291.1 	"/>
 </g>
-<g id="solid-gidayu-bunraku-junction_00000058572016448504518800000003786962729986952374_">
+<g id="solid-gidayu-bunraku-junction">
 	<path id="solid-gidayu-bunraku-junction-line_00000072244183784138805360000009731170959304910994_" class="st23" d="M1179.1,646.6
 		v63.5"/>
 	<polygon id="solid-gidayu-bunraku-junction-arrow-end_00000106854343497899581920000016350830202862892961_" class="st9" points="
@@ -250,7 +250,7 @@
 	<polygon id="solid-saimon-kadotsuke-arrow-end_00000168096815298967432490000006374443390747556009_" class="st9" points="
 		1201.1,836.9 1192.4,840.4 1192.4,833.4 	"/>
 </g>
-<g id="solid-kadotsuke-rokyoku_00000160875068100326879010000007006636280788938416_">
+<g id="solid-kadotsuke-rokyoku">
 	<path id="solid-kadotsuke-rokyoku-line_00000183943769075114133510000017748581565506856326_" class="st23" d="M1291.1,836.9h50"/>
 	<polygon id="solid-kadotsuke-rokyoku-arrow-end_00000114787182641574124700000005064249435162356380_" class="st9" points="
 		1341.1,836.9 1332.4,840.4 1332.4,833.4 	"/>
@@ -266,69 +266,69 @@
 	<polygon id="solid-monogatari-heike-arrow-end_00000132805075446189441500000012162650684023790474_" class="st9" points="
 		717,904.9 707.7,909.4 707.7,900.4 	"/>
 </g>
-<g id="kugutsu_00000003796155006443097870000017077687899852740489_">
+<g id="kugutsu">
 	
 		<text id="kugutsu-text_00000101782752143781087060000012334495244790340274_" transform="matrix(1 0 0 1 580.045 728.1845)" class="st9 st20 st18">傀儡</text>
 </g>
-<g id="nagauta_00000098927168202951863710000003577132058538798269_">
+<g id="nagauta">
 	
 		<text id="nagauta-text_00000176728467836284366490000007505048439121992833_" transform="matrix(1 0 0 1 1121.0449 237.3589)" class="st9 st20 st18">長唄</text>
 </g>
-<g id="kiyomoto_00000168093307732956941900000001537266464286141060_">
+<g id="kiyomoto">
 	
 		<rect id="kiyomoto-narrative-box_00000052788534126534498440000017127407121471557263_" x="1241.6" y="285.1" class="st24" width="62.4" height="21"/>
 	
 		<text id="kiyomoto-text_00000094593854117064853930000006758735546105476244_" transform="matrix(1 0 0 1 1243.0449 302.9116)" class="st9 st20 st18">清元節</text>
 </g>
-<g id="tomimoto_00000026132175611874048520000017668925339257192876_">
+<g id="tomimoto">
 	
 		<rect id="tomimoto-narrative-box_00000142135078404227628000000012510728519266535552_" x="1203.6" y="322.1" class="st24" width="62.4" height="21"/>
 	
 		<text id="tomimoto-text_00000060750724413325809050000017056714151544958338_" transform="matrix(1 0 0 1 1205.0449 339.9116)" class="st9 st20 st18">富本節</text>
 </g>
-<g id="tokiwazu_00000117667354557041839230000009109510326763220118_">
+<g id="tokiwazu">
 	
 		<rect id="tokiwazu-narrative-box_00000144337874236896924470000014330105809960278447_" x="1203.6" y="360.1" class="st24" width="82.6" height="21"/>
 	
 		<text id="tokiwazu-text_00000005260598217036561220000005784969878346500743_" transform="matrix(1 0 0 1 1205.0449 377.9116)" class="st9 st20 st18">常磐津節</text>
 </g>
-<g id="bungobushi_00000176012925667991283320000012665049542313407656_">
+<g id="bungobushi">
 	
 		<rect id="bungobushi-narrative-box_00000133507312987541139410000001208265157494648462_" x="1155.6" y="397.1" class="st24" width="62.4" height="21"/>
 	
 		<text id="bungobushi-text_00000157286030517679300480000011234717797800822920_" transform="matrix(1 0 0 1 1157.0449 414.9116)" class="st9 st20 st18">豊後節</text>
 </g>
-<g id="takemoto_00000032623228754264729090000005444698705708269954_">
+<g id="takemoto">
 	
 		<rect id="takemoto-narrative-box_00000114761647420066000480000011210091709484225437_" x="1250.6" y="398.1" class="st24" width="42.3" height="21"/>
 	
 		<text id="takemoto-text_00000053537582333412700320000015493144054943830934_" transform="matrix(1 0 0 1 1252.0449 415.9116)" class="st9 st20 st18">竹本</text>
 </g>
-<g id="shinnai_00000036223691307156270560000009433273192875286963_">
+<g id="shinnai">
 	
 		<rect id="shinnai-narrative-box_00000165917204240165076640000004902802750283192988_" x="1203.6" y="433.1" class="st24" width="62.4" height="21"/>
 	
 		<text id="shinnai-text_00000116920087806124208290000001351003414499328412_" transform="matrix(1 0 0 1 1205.0449 450.9116)" class="st9 st20 st18">新内節</text>
 </g>
-<g id="miyazono_00000005979482301418856100000014236091859006843809_">
+<g id="miyazono">
 	
 		<rect id="miyazono-narrative-box_00000030453997368622556970000008621001032818189440_" x="1203.6" y="471.1" class="st24" width="62.4" height="21"/>
 	
 		<text id="miyazono-text_00000060718162661547278000000006185510966708208049_" transform="matrix(1 0 0 1 1205.0449 488.9116)" class="st9 st20 st18">宮薗節</text>
 </g>
-<g id="itchubushi_00000111189965266596144840000014219664497628769712_">
+<g id="itchubushi">
 	
 		<rect id="itchubushi-narrative-box_00000095308539610541629350000009559542202028305576_" x="1105.6" y="508.1" class="st24" width="62.4" height="21"/>
 	
 		<text id="itchubushi-text_00000076574784248524262020000012368282096323453065_" transform="matrix(1 0 0 1 1107.0449 525.9116)" class="st9 st20 st18">一中節</text>
 </g>
-<g id="katobushi_00000176000965687544655340000001011320777489084323_">
+<g id="katobushi">
 	
 		<rect id="katobushi-narrative-box_00000010989838068602805180000007826095370392797834_" x="1154.6" y="546.1" class="st24" width="62.4" height="21"/>
 	
 		<text id="katobushi-text_00000106839417455289589140000017569354943802957983_" transform="matrix(1 0 0 1 1156.0449 563.9116)" class="st9 st20 st18">河東節</text>
 </g>
-<g id="kojoruri_00000001632638012965209170000015123369844974227343_">
+<g id="kojoruri">
 	
 		<rect id="kojoruri-narrative-box_00000024711425928710427370000013847312433415106495_" x="1012.5" y="584.1" class="st24" width="82.6" height="21"/>
 	
@@ -342,69 +342,69 @@
 	
 		<text id="kojoruri-note-text_00000016796992151474615590000000180894190577403031_" transform="matrix(1 0 0 1 1143.0449 601.9116)" class="st9 st20 st25">を含む）</text>
 </g>
-<g id="gidayu_00000003798794803900265690000005310766533542826121_">
+<g id="gidayu">
 	
 		<rect id="gidayu-narrative-box_00000178909184944509491540000004647328684261911710_" x="1105.6" y="621.1" class="st24" width="82.6" height="21"/>
 	
 		<text id="gidayu-text_00000062897489848285334760000012175507770789950642_" transform="matrix(1 0 0 1 1107.0449 638.9116)" class="st9 st20 st18">義太夫節</text>
 </g>
-<g id="ningyo-shibai_00000042723099627918425580000002182361907033863562_">
+<g id="ningyo-shibai">
 	
 		<text id="ningyo-shibai-text_00000108310162821573361560000009487555585362141348_" transform="matrix(1 0 0 1 992.0449 728.1845)" class="st9 st20 st18">人形芝居</text>
 </g>
-<g id="bunraku_00000135655274398366927230000008956620685889738169_">
+<g id="bunraku">
 	
 		<text id="bunraku-text_00000060710613264244909330000005357144491650012589_" transform="matrix(1 0 0 1 1253.0449 728.1845)" class="st9 st20 st18">文楽</text>
 </g>
-<g id="sekkyo_00000173119838615483223830000004538329875198794168_">
+<g id="sekkyo">
 	
 		<text id="sekkyo-text_00000039094511736086575940000018325031016507314060_" transform="matrix(1 0 0 1 387.045 601.9116)" class="st9 st20 st18">説教</text>
 </g>
-<g id="saimon_00000063628948386965612590000000060318803744607367_">
+<g id="saimon">
 	
 		<text id="saimon-text_00000016061429997440653810000014300677974684960662_" transform="matrix(1 0 0 1 387.045 843.9219)" class="st9 st20 st18">祭文</text>
 </g>
-<g id="kadotsuke-saimon_00000164490925306945232320000014737022080905454469_">
+<g id="kadotsuke-saimon">
 	
 		<rect id="kadotsuke-saimon-narrative-box_00000154408405970724128550000016128994408230489783_" x="1203.6" y="826.6" class="st24" width="82.6" height="21"/>
 	
 		<text id="kadotsuke-saimon-text_00000105417671979780555350000001004412612040709014_" transform="matrix(1 0 0 1 1205.0449 844.4115)" class="st9 st20 st18">門付祭文</text>
 </g>
-<g id="kadotsuke-saimon_00000008117241373907054580000016424544200625095298_">
+<g id="sekkyo-bushi">
 	<polygon id="sekkyo-bushi-narrative-box" class="st24" points="1064.2,783.2 1130.6,782.7 1130.6,803.7 1064.2,804.2 	"/>
 	<text id="sekkyo-bushi-text" transform="matrix(1 0 0 1 1065.745 801.0207)" class="st9 st20 st18">説経節</text>
 </g>
-<g id="rokyoku_00000149350896823425374040000011054376412892133773_">
+<g id="rokyoku">
 	
 		<rect id="rokyoku-narrative-box_00000145780308490271211770000018194945938702675087_" x="1343.6" y="826.1" class="st24" width="42.3" height="21"/>
 	
 		<text id="rokyoku-text_00000050642970459026383250000014681394549906977670_" transform="matrix(1 0 0 1 1345.0449 843.9215)" class="st9 st20 st18">浪曲</text>
 </g>
-<g id="hoyo-biwa_00000181801642484044552930000018089984959299105680_">
+<g id="hoyo-biwa">
 	
 		<text id="hoyo-biwa-text_00000106835525109015384750000013414526251370625454_" transform="matrix(1 0 0 1 243.045 912.1933)" class="st9 st20 st18">法要琵琶</text>
 </g>
-<g id="monogatari-biwa_00000025403499090471673980000017912780173630726548_">
+<g id="monogatari-biwa">
 	
 		<rect id="monogatari-biwa-narrative-box_00000168825678336903903200000000413381945053276036_" x="434.5" y="894.4" class="st24" width="82.6" height="21"/>
 	
 		<text id="monogatari-biwa-text_00000053512031002877434960000012855351700059966620_" transform="matrix(1 0 0 1 436.045 912.1933)" class="st9 st20 st18">物語琵琶</text>
 </g>
-<g id="heike-biwa_00000052084962154430738570000001040050480031131831_">
+<g id="heike-biwa">
 	
 		<rect id="heike-biwa-narrative-box_00000101078269295232143010000006555843082634003877_" x="719.5" y="894.4" class="st24" width="82.6" height="21"/>
 	
 		<text id="heike-biwa-text_00000176731128316674842530000013292906542167537803_" transform="matrix(1 0 0 1 721.045 912.1933)" class="st9 st20 st18">平家琵琶</text>
 </g>
-<g id="shomyo_00000036948021807046550450000014811776123603513251_">
+<g id="shomyo">
 	
 		<text id="shomyo-text_00000118384237507813131510000011155307022259660467_" transform="matrix(1 0 0 1 195.045 978.3335)" class="st9 st20 st18">声明</text>
 </g>
-<g id="koshiki_00000176754417333141081170000018261540872560157373_">
+<g id="koshiki">
 	
 		<text id="koshiki-text_00000094577562093356810760000006483284038862137990_" transform="matrix(1 0 0 1 460.045 978.3335)" class="st9 st20 st18">講式</text>
 </g>
-<g id="solid-kojoruri-gidayu_00000037687346229939864450000015080859065876871591_">
+<g id="solid-kojoruri-gidayu-arrow">
 	<polygon id="solid-kojoruri-gidayu-arrow-end_00000171682184814877225220000015843930369275224223_" class="st9" points="
 		1062.3,793.5 1053.7,798 1053.7,789 	"/>
 </g>

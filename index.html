@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>日本語り芸の系譜 — インタラクティブ版</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="page-header">
+        <p class="eyebrow">INTERACTIVE CHART</p>
+        <h1>日本語り芸の系譜</h1>
+        <p class="intro">系統図の「声明」「義太夫節」「浪曲」を選ぶと、関連する流れと参考情報を確認できます。</p>
+      </header>
+
+      <section class="diagram-section" aria-labelledby="diagram-heading">
+        <div class="section-heading">
+          <div>
+            <p class="step">01</p>
+            <h2 id="diagram-heading">系統図から選ぶ</h2>
+          </div>
+          <button id="reset-button" class="reset-button" type="button" disabled>選択解除／全体表示</button>
+        </div>
+        <p id="diagram-status" class="sr-only" aria-live="polite">系統図を読み込んでいます。</p>
+        <div class="scroll-hint" aria-hidden="true">横にスクロールしてご覧ください <span>→</span></div>
+        <div class="diagram-scroll" tabindex="0" aria-label="日本語り芸の系譜図。スマートフォンでは横にスクロールできます。">
+          <div id="diagram-host" class="diagram-host"></div>
+        </div>
+      </section>
+
+      <section id="detail-panel" class="detail-panel" aria-labelledby="detail-name">
+        <div class="video-column">
+          <p class="step">02</p>
+          <div id="video-frame" class="video-frame">
+            <div id="video-placeholder" class="video-placeholder">
+              <span aria-hidden="true">▶</span>
+              <p>系統図から項目を選択してください</p>
+            </div>
+          </div>
+        </div>
+        <div class="detail-copy">
+          <p id="detail-kicker" class="detail-kicker">選択した芸能の参考情報</p>
+          <h2 id="detail-name">項目を選択</h2>
+          <p id="detail-period" class="detail-period">—</p>
+          <p id="detail-summary" class="detail-summary">声明・義太夫節・浪曲のいずれかを選ぶと、ここに動画と解説が表示されます。</p>
+          <a id="youtube-link" class="youtube-link is-disabled" href="#" aria-disabled="true">YouTubeで見る <span aria-hidden="true">↗</span></a>
+        </div>
+      </section>
+    </main>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
