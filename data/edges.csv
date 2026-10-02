@@ -1,0 +1,14 @@
+selection_id,target_type,target_id
+shomyo,node,saimon
+shomyo,node,hoyo-biwa
+shomyo,edge,solid-shomyo-saimon-trunk
+shomyo,edge,solid-shomyo-hoyo-biwa-branch
+gidayu,node,kojoruri
+gidayu,node,takemoto
+gidayu,node,bunraku
+gidayu,edge,solid-kojoruri-gidayu
+gidayu,edge,solid-kojoruri-gidayu-arrow
+gidayu,edge,dash-gidayu-takemoto-branch
+gidayu,edge,solid-gidayu-bunraku-junction
+rokyoku,node,kadotsuke-saimon
+rokyoku,edge,solid-kadotsuke-rokyoku

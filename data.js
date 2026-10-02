@@ -1,33 +1,123 @@
 /*
- * 項目ごとの動画・解説データ。内容を更新する場合はこのファイルを編集する。
- * relatedNodes / relatedEdges は系譜上の関係を自動推測せず、明示的に管理する。
+ * 編集するデータは data/nodes.csv、data/edges.csv、data/media.csv で管理する。
+ * CSVを読み込み、既存の表示処理が使う形式へ変換する。関係の自動推測は行わない。
  */
-window.KATARI_NODES = {
-  shomyo: {
-    name: "声明",
-    period: "古代〜",
-    summary: "僧侶が経典や讃文を、旋律や独特の節回しで唱える仏教音楽。日本では古代から伝承され、講式や説教などを通じて、後世の平家琵琶や浄瑠璃など語り物の形成にも影響を与えた。",
-    youtubeId: "hB6D4boGX-I",
-    youtubeUrl: "https://youtu.be/hB6D4boGX-I",
-    relatedNodes: ["saimon", "hoyo-biwa"],
-    relatedEdges: ["solid-shomyo-saimon-trunk", "solid-shomyo-hoyo-biwa-branch"]
-  },
-  gidayu: {
-    name: "義太夫節",
-    period: "17世紀後半〜",
-    summary: "17世紀後半、竹本義太夫がそれまでの浄瑠璃を集大成して大成した語り物。太夫が人物の台詞や情景を語り、太棹三味線が支える。現在は文楽の中心的な音楽で、歌舞伎では「竹本」として演奏される。",
-    youtubeId: "BY-jRqf5D3k",
-    youtubeUrl: "https://www.youtube.com/watch?v=BY-jRqf5D3k",
-    relatedNodes: ["kojoruri", "takemoto", "bunraku"],
-    relatedEdges: ["solid-kojoruri-gidayu", "solid-kojoruri-gidayu-arrow", "dash-gidayu-takemoto-branch", "solid-gidayu-bunraku-junction"]
-  },
-  rokyoku: {
-    name: "浪花節・浪曲",
-    period: "幕末〜明治初期",
-    summary: "幕末に説経節や貝祭文など複数の語り芸を取り込み成立した芸能。三味線を伴い、節と歯切れのよい啖呵で物語を語る。浪花節として広まり、明治以降に大衆芸能として大きく発展した。",
-    youtubeId: "UJE7YYShCNM",
-    youtubeUrl: "https://www.youtube.com/watch?v=UJE7YYShCNM",
-    relatedNodes: ["kadotsuke-saimon"],
-    relatedEdges: ["solid-kadotsuke-rokyoku"]
+(function () {
+  "use strict";
+
+  function parseCSV(source) {
+    const text = source.replace(/^\uFEFF/, "");
+    const rows = [];
+    let row = [];
+    let field = "";
+    let quoted = false;
+    let closedQuote = false;
+
+    function finishField() {
+      row.push(field);
+      field = "";
+      closedQuote = false;
+    }
+
+    for (let i = 0; i < text.length; i += 1) {
+      const char = text[i];
+      if (quoted) {
+        if (char === '"') {
+          if (text[i + 1] === '"') {
+            field += '"';
+            i += 1;
+          } else {
+            quoted = false;
+            closedQuote = true;
+          }
+        } else {
+          field += char;
+        }
+        continue;
+      }
+
+      if (char === ",") {
+        finishField();
+      } else if (char === "\n" || char === "\r") {
+        finishField();
+        rows.push(row);
+        row = [];
+        if (char === "\r" && text[i + 1] === "\n") i += 1;
+      } else if (closedQuote) {
+        if (char !== " " && char !== "\t") {
+          throw new Error(`CSVの${rows.length + 1}行目: 閉じた引用符の後に不正な文字があります。`);
+        }
+      } else if (char === '"') {
+        if (field !== "") throw new Error(`CSVの${rows.length + 1}行目: 引用符の位置が不正です。`);
+        quoted = true;
+      } else {
+        field += char;
+      }
+    }
+
+    if (quoted) throw new Error("CSVの引用符が閉じられていません。");
+    if (row.length || field !== "" || closedQuote) {
+      finishField();
+      rows.push(row);
+    }
+    return rows;
   }
-};
+
+  async function readCSV(path, requiredColumns) {
+    try {
+      const response = await fetch(path);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const rows = parseCSV(await response.text()).filter((row) => row.some((value) => value !== ""));
+      const headers = (rows.shift() || []).map((value) => value.trim());
+      if (new Set(headers).size !== headers.length) throw new Error("列名が重複しています。");
+      for (const name of requiredColumns) {
+        if (!headers.includes(name)) throw new Error(`必須列 ${name} がありません。`);
+      }
+      return rows.map((values, index) => {
+        if (values.length !== headers.length) throw new Error(`${index + 2}行目の列数が一致しません。`);
+        return Object.fromEntries(headers.map((name, column) => [name, values[column]]));
+      });
+    } catch (error) {
+      throw new Error(`${path}: ${error.message}`);
+    }
+  }
+
+  window.loadKatariData = async function () {
+    const [nodeRows, edgeRows, mediaRows] = await Promise.all([
+      readCSV("./data/nodes.csv", ["id", "name", "period", "summary"]),
+      readCSV("./data/edges.csv", ["selection_id", "target_type", "target_id"]),
+      readCSV("./data/media.csv", ["node_id", "service", "video_id", "url"])
+    ]);
+    const nodes = Object.create(null);
+    if (!nodeRows.length) throw new Error("data/nodes.csv: 項目がありません。");
+    for (const row of nodeRows) {
+      if (!row.id || !row.name || nodes[row.id]) throw new Error(`data/nodes.csv: IDまたは名前が空、またはIDが重複しています (${row.id})。`);
+      nodes[row.id] = {
+        name: row.name,
+        period: row.period,
+        summary: row.summary,
+        youtubeId: "",
+        youtubeUrl: "",
+        relatedNodes: [],
+        relatedEdges: []
+      };
+    }
+    for (const row of edgeRows) {
+      const node = nodes[row.selection_id];
+      if (!node || !row.target_id || !["node", "edge"].includes(row.target_type)) {
+        throw new Error(`data/edges.csv: 不正な関連データです (${row.selection_id}, ${row.target_type}, ${row.target_id})。`);
+      }
+      node[row.target_type === "node" ? "relatedNodes" : "relatedEdges"].push(row.target_id);
+    }
+    for (const row of mediaRows) {
+      const node = nodes[row.node_id];
+      if (!node || row.service !== "youtube" || !row.video_id || !row.url || node.youtubeId) {
+        throw new Error(`data/media.csv: 不正または重複した動画データです (${row.node_id})。`);
+      }
+      node.youtubeId = row.video_id;
+      node.youtubeUrl = row.url;
+    }
+    window.KATARI_NODES = nodes;
+    return nodes;
+  };
+}());

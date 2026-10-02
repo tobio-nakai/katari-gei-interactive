@@ -14,50 +14,37 @@
         <p class="intro">系統図の「声明」「義太夫節」「浪曲」を選ぶと、関連する流れと参考情報を確認できます。</p>
       </header>
 
-      <section class="diagram-section" aria-labelledby="diagram-heading">
-        <div class="section-heading">
-          <div>
-            <p class="step">01</p>
-            <h2 id="diagram-heading">系統図から選ぶ</h2>
-          </div>
-          <button id="reset-button" class="reset-button" type="button" disabled>選択解除／全体表示</button>
-        </div>
+      <section class="diagram-section" aria-label="日本語り芸の系譜図">
         <p id="diagram-status" class="sr-only" aria-live="polite">系統図を読み込んでいます。</p>
-        <div class="scroll-hint" aria-hidden="true">横にスクロールしてご覧ください <span>→</span></div>
-        <div class="diagram-scroll" tabindex="0" aria-label="日本語り芸の系譜図。スマートフォンでは横にスクロールできます。">
+        <div class="diagram-toolbar">
+          <p class="scroll-hint">図を上下左右に動かせます</p>
+          <button id="diagram-home" class="diagram-home" type="button" aria-label="系譜図を初期位置に戻す" title="系譜図を初期位置に戻す"><span aria-hidden="true">↺</span> 全体</button>
+        </div>
+        <div class="diagram-scroll" tabindex="0" aria-label="日本語り芸の系譜図。上下左右にスクロールできます。">
           <div id="diagram-host" class="diagram-host"></div>
         </div>
       </section>
 
-      <aside id="selection-card" class="selection-card" aria-live="polite" hidden>
-        <div>
-          <p id="selection-card-name" class="selection-card-name"></p>
-          <p id="selection-card-period" class="selection-card-period"></p>
-        </div>
-        <button id="open-detail-button" class="open-detail-button" type="button">動画と解説を見る</button>
-      </aside>
-
-      <dialog id="detail-dialog" class="detail-dialog" aria-labelledby="detail-name">
-        <button id="dialog-close" class="dialog-close" type="button" aria-label="詳細を閉じる">×</button>
-        <section id="detail-panel" class="detail-panel">
-          <div class="video-column">
-            <p class="step">REFERENCE VIDEO</p>
-            <div id="video-frame" class="video-frame">
-              <div id="video-placeholder" class="video-placeholder">
-                <span aria-hidden="true">▶</span>
-                <p>系統図から項目を選択してください</p>
-              </div>
+      <section id="detail-sheet" class="detail-sheet" aria-labelledby="detail-name" aria-hidden="true" inert>
+        <div class="sheet-top">
+          <button id="sheet-handle" class="sheet-handle" type="button" aria-label="詳細パネルを展開" aria-expanded="false" aria-controls="sheet-content"><span aria-hidden="true"></span></button>
+          <div class="sheet-heading">
+            <div>
+              <h2 id="detail-name"></h2>
+              <p id="detail-period" class="detail-period"></p>
             </div>
+            <button id="sheet-close" class="sheet-close" type="button" aria-label="選択を解除して詳細パネルを閉じる">×</button>
           </div>
-          <div class="detail-copy">
-            <p id="detail-kicker" class="detail-kicker">選択した芸能の参考情報</p>
-            <h2 id="detail-name">項目を選択</h2>
-            <p id="detail-period" class="detail-period">—</p>
-            <p id="detail-summary" class="detail-summary">声明・義太夫節・浪曲のいずれかを選ぶと、ここに動画と解説が表示されます。</p>
-            <a id="youtube-link" class="youtube-link is-disabled" href="#" aria-disabled="true">YouTubeで見る <span aria-hidden="true">↗</span></a>
+        </div>
+        <div id="sheet-content" class="sheet-content">
+          <p id="detail-summary" class="detail-summary"></p>
+          <div id="sheet-media" class="sheet-media" hidden>
+            <div id="video-frame" class="video-frame"></div>
+            <a id="youtube-link" class="youtube-link" href="#" target="_blank" rel="noopener noreferrer">YouTubeで開く <span aria-hidden="true">↗</span></a>
           </div>
-        </section>
-      </dialog>
+        </div>
+        <button id="sheet-toggle" class="sheet-toggle" type="button" aria-expanded="false" aria-controls="sheet-content">詳細を見る ↑</button>
+      </section>
     </main>
 
     <script src="data.js"></script>
