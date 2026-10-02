@@ -5,6 +5,12 @@
   const host = document.querySelector("#diagram-host");
   const status = document.querySelector("#diagram-status");
   const resetButton = document.querySelector("#reset-button");
+  const detailDialog = document.querySelector("#detail-dialog");
+  const dialogClose = document.querySelector("#dialog-close");
+  const selectionCard = document.querySelector("#selection-card");
+  const selectionCardName = document.querySelector("#selection-card-name");
+  const selectionCardPeriod = document.querySelector("#selection-card-period");
+  const openDetailButton = document.querySelector("#open-detail-button");
   const detailPanel = document.querySelector("#detail-panel");
   const detailName = document.querySelector("#detail-name");
   const detailPeriod = document.querySelector("#detail-period");
@@ -12,6 +18,7 @@
   const youtubeLink = document.querySelector("#youtube-link");
   const videoFrame = document.querySelector("#video-frame");
   let svg;
+  let selectedNodeId = null;
 
   function makeHitArea(group) {
     const box = group.getBBox();
@@ -64,7 +71,7 @@
     selected.classList.remove("is-dimmed");
     selected.classList.add("is-selected");
 
-    [...node.relatedNodes, ...node.relatedEdges].forEach((relatedId) => {
+    [...(node.relatedNodes || []), ...(node.relatedEdges || [])].forEach((relatedId) => {
       const related = svg.querySelector(`#${CSS.escape(relatedId)}`);
       if (!related) return;
       related.classList.remove("is-dimmed");
@@ -77,13 +84,18 @@
     youtubeLink.href = node.youtubeUrl;
     youtubeLink.classList.remove("is-disabled");
     youtubeLink.removeAttribute("aria-disabled");
-    setVideo(node);
+    selectedNodeId = id;
+    selectionCardName.textContent = node.name;
+    selectionCardPeriod.textContent = node.period;
+    selectionCard.hidden = false;
     resetButton.disabled = false;
-    status.textContent = `${node.name}を選択しました。関連する項目と矢印を強調しています。`;
-    detailPanel.classList.add("has-content");
+    status.textContent = `${node.name}を選択しました。関連する項目と矢印を強調しています。動画と解説も開けます。`;
   }
 
   function resetSelection() {
+    selectedNodeId = null;
+    if (detailDialog.open) detailDialog.close();
+    selectionCard.hidden = true;
     clearHighlightClasses();
     detailName.textContent = "項目を選択";
     detailPeriod.textContent = "—";
@@ -92,9 +104,29 @@
     youtubeLink.classList.add("is-disabled");
     youtubeLink.setAttribute("aria-disabled", "true");
     videoFrame.innerHTML = '<div class="video-placeholder"><span aria-hidden="true">▶</span><p>系統図から項目を選択してください</p></div>';
-    detailPanel.classList.remove("has-content");
     resetButton.disabled = true;
     status.textContent = "選択を解除し、系統図全体を表示しました。";
+  }
+
+  function closeDetails() {
+    if (detailDialog.open) {
+      detailDialog.close();
+    }
+  }
+
+  function openDetails() {
+    if (!selectedNodeId) return;
+    setVideo(nodes[selectedNodeId]);
+    selectionCard.hidden = true;
+    detailDialog.showModal();
+  }
+
+  function handleDialogClosed() {
+    videoFrame.innerHTML = '<div class="video-placeholder"><span aria-hidden="true">▶</span><p>系統図から項目を選択してください</p></div>';
+    if (selectedNodeId) {
+      selectionCard.hidden = false;
+      status.textContent = `${nodes[selectedNodeId].name}の詳細を閉じました。系統図の強調表示は継続しています。`;
+    }
   }
 
   function prepareInteractiveNode(id, node) {
@@ -107,7 +139,13 @@
     group.setAttribute("role", "button");
     group.setAttribute("tabindex", "0");
     group.setAttribute("aria-label", `${node.name}の詳細を表示`);
-    makeHitArea(group);
+    try {
+      makeHitArea(group);
+    } catch (error) {
+      // getBBox() can fail temporarily in some browsers. The text group itself
+      // remains clickable, so this must not prevent the SVG from being shown.
+      console.warn(`Could not expand hit area for ${id}`, error);
+    }
     group.addEventListener("click", () => selectNode(id));
     group.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
@@ -132,7 +170,15 @@
       svg.setAttribute("role", "group");
       host.replaceChildren(document.importNode(svg, true));
       svg = host.querySelector("svg");
-      Object.entries(nodes).forEach(([id, node]) => prepareInteractiveNode(id, node));
+      Object.entries(nodes || {}).forEach(([id, node]) => {
+        try {
+          prepareInteractiveNode(id, node);
+        } catch (error) {
+          // A problem with one interactive item should never hide the original
+          // diagram. Keep the SVG visible and continue preparing other items.
+          console.warn(`Could not prepare SVG node: ${id}`, error);
+        }
+      });
       status.textContent = "系統図を読み込みました。声明、義太夫節、浪曲を選択できます。";
     } catch (error) {
       host.innerHTML = '<p class="load-error">系統図を読み込めませんでした。ページを再読み込みしてください。</p>';
@@ -142,5 +188,11 @@
   }
 
   resetButton.addEventListener("click", resetSelection);
+  dialogClose.addEventListener("click", closeDetails);
+  openDetailButton.addEventListener("click", openDetails);
+  detailDialog.addEventListener("click", (event) => {
+    if (event.target === detailDialog) closeDetails();
+  });
+  detailDialog.addEventListener("close", handleDialogClosed);
   loadDiagram();
 }());

@@ -31,7 +31,7 @@ button, a { font: inherit; }
 h1 { margin: 0; font-family: "Yu Mincho", YuMincho, serif; font-size: clamp(32px, 4vw, 54px); font-weight: 500; letter-spacing: .06em; }
 .intro { max-width: 680px; margin: 16px 0 0; color: var(--muted); line-height: 1.9; }
 
-.diagram-section, .detail-panel { background: var(--panel); border: 1px solid var(--line); box-shadow: 0 14px 40px rgb(75 65 48 / 8%); }
+.diagram-section { background: var(--panel); border: 1px solid var(--line); box-shadow: 0 14px 40px rgb(75 65 48 / 8%); }
 .diagram-section { padding: 26px; }
 .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 18px; }
 .section-heading h2 { margin: 0; font-family: "Yu Mincho", YuMincho, serif; font-size: 22px; font-weight: 500; }
@@ -56,7 +56,59 @@ h1 { margin: 0; font-family: "Yu Mincho", YuMincho, serif; font-size: clamp(32px
 .diagram-host svg .is-related polygon { fill: var(--accent) !important; }
 .load-error { padding: 80px 30px; text-align: center; }
 
-.detail-panel { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(290px, .8fr); gap: clamp(28px, 5vw, 72px); margin-top: 28px; padding: clamp(24px, 4vw, 48px); }
+.selection-card {
+  position: fixed;
+  z-index: 5;
+  right: 28px;
+  bottom: 28px;
+  display: flex;
+  width: min(420px, calc(100% - 40px));
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border: 1px solid var(--line);
+  padding: 18px 20px;
+  background: var(--panel);
+  box-shadow: 0 16px 48px rgb(37 35 31 / 22%);
+}
+.selection-card[hidden] { display: none; }
+.selection-card-name { margin: 0; font-family: "Yu Mincho", YuMincho, serif; font-size: 22px; }
+.selection-card-period { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+.open-detail-button { flex: none; min-height: 42px; border: 0; padding: 10px 16px; color: #fff; background: var(--accent-dark); cursor: pointer; }
+.open-detail-button:hover, .open-detail-button:focus-visible { background: var(--accent); }
+
+.detail-dialog {
+  width: min(1120px, calc(100% - 48px));
+  max-width: none;
+  max-height: min(90vh, 820px);
+  margin: auto;
+  overflow: auto;
+  border: 1px solid var(--line);
+  padding: 0;
+  color: var(--ink);
+  background: var(--panel);
+  box-shadow: 0 24px 80px rgb(37 35 31 / 28%);
+}
+.detail-dialog::backdrop { background: rgb(30 28 24 / 58%); backdrop-filter: blur(2px); }
+.dialog-close {
+  position: absolute;
+  z-index: 2;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--ink);
+  background: var(--panel);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+.dialog-close:hover, .dialog-close:focus-visible { color: #fff; background: var(--ink); }
+.detail-panel { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(290px, .8fr); gap: clamp(28px, 5vw, 72px); padding: clamp(44px, 5vw, 64px); }
 .video-frame { position: relative; overflow: hidden; aspect-ratio: 16 / 9; margin-top: 14px; background: #272521; }
 .video-frame iframe { width: 100%; height: 100%; border: 0; }
 .video-placeholder { display: grid; place-content: center; height: 100%; padding: 20px; color: #e8e3da; text-align: center; }
@@ -80,7 +132,9 @@ h1 { margin: 0; font-family: "Yu Mincho", YuMincho, serif; font-size: clamp(32px
   .reset-button { width: 100%; }
   .scroll-hint { display: block; }
   .diagram-host { min-width: 980px; }
-  .detail-panel { grid-template-columns: 1fr; padding: 20px; }
+  .selection-card { right: 12px; bottom: 12px; width: calc(100% - 24px); }
+  .detail-dialog { width: 100%; max-height: 92dvh; margin: auto 0 0; border-width: 1px 0 0; border-radius: 18px 18px 0 0; }
+  .detail-panel { grid-template-columns: 1fr; gap: 22px; padding: 58px 20px 28px; }
   .detail-summary { min-height: auto; }
 }
 

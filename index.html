@@ -29,24 +29,35 @@
         </div>
       </section>
 
-      <section id="detail-panel" class="detail-panel" aria-labelledby="detail-name">
-        <div class="video-column">
-          <p class="step">02</p>
-          <div id="video-frame" class="video-frame">
-            <div id="video-placeholder" class="video-placeholder">
-              <span aria-hidden="true">▶</span>
-              <p>系統図から項目を選択してください</p>
+      <aside id="selection-card" class="selection-card" aria-live="polite" hidden>
+        <div>
+          <p id="selection-card-name" class="selection-card-name"></p>
+          <p id="selection-card-period" class="selection-card-period"></p>
+        </div>
+        <button id="open-detail-button" class="open-detail-button" type="button">動画と解説を見る</button>
+      </aside>
+
+      <dialog id="detail-dialog" class="detail-dialog" aria-labelledby="detail-name">
+        <button id="dialog-close" class="dialog-close" type="button" aria-label="詳細を閉じる">×</button>
+        <section id="detail-panel" class="detail-panel">
+          <div class="video-column">
+            <p class="step">REFERENCE VIDEO</p>
+            <div id="video-frame" class="video-frame">
+              <div id="video-placeholder" class="video-placeholder">
+                <span aria-hidden="true">▶</span>
+                <p>系統図から項目を選択してください</p>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="detail-copy">
-          <p id="detail-kicker" class="detail-kicker">選択した芸能の参考情報</p>
-          <h2 id="detail-name">項目を選択</h2>
-          <p id="detail-period" class="detail-period">—</p>
-          <p id="detail-summary" class="detail-summary">声明・義太夫節・浪曲のいずれかを選ぶと、ここに動画と解説が表示されます。</p>
-          <a id="youtube-link" class="youtube-link is-disabled" href="#" aria-disabled="true">YouTubeで見る <span aria-hidden="true">↗</span></a>
-        </div>
-      </section>
+          <div class="detail-copy">
+            <p id="detail-kicker" class="detail-kicker">選択した芸能の参考情報</p>
+            <h2 id="detail-name">項目を選択</h2>
+            <p id="detail-period" class="detail-period">—</p>
+            <p id="detail-summary" class="detail-summary">声明・義太夫節・浪曲のいずれかを選ぶと、ここに動画と解説が表示されます。</p>
+            <a id="youtube-link" class="youtube-link is-disabled" href="#" aria-disabled="true">YouTubeで見る <span aria-hidden="true">↗</span></a>
+          </div>
+        </section>
+      </dialog>
     </main>
 
     <script src="data.js"></script>
