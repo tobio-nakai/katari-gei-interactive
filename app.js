@@ -114,6 +114,14 @@
     }
   }
 
+  function hideSelectionCard() {
+    if (selectionCard.hidden) return;
+    selectionCard.hidden = true;
+    if (selectedNodeId) {
+      status.textContent = `${nodes[selectedNodeId].name}の案内カードを閉じました。系統図の強調表示は継続しています。`;
+    }
+  }
+
   function openDetails() {
     if (!selectedNodeId) return;
     setVideo(nodes[selectedNodeId]);
@@ -194,5 +202,10 @@
     if (event.target === detailDialog) closeDetails();
   });
   detailDialog.addEventListener("close", handleDialogClosed);
+  document.addEventListener("click", (event) => {
+    if (selectionCard.hidden || detailDialog.open) return;
+    if (selectionCard.contains(event.target) || event.target.closest(".interactive-node")) return;
+    hideSelectionCard();
+  });
   loadDiagram();
 }());
