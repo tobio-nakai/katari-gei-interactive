@@ -9,17 +9,17 @@
   <body>
     <main class="page-shell">
       <header class="page-header">
-        <p class="eyebrow">INTERACTIVE CHART</p>
         <h1>日本語り芸の系譜</h1>
-        <p class="intro">系統図の「声明」「義太夫節」「浪曲」を選ぶと、関連する流れと参考情報を確認できます。</p>
+        <p class="intro">気になる芸能を選ぶと、その系譜と解説・参考動画を確認できます。</p>
       </header>
 
       <section class="diagram-section" aria-label="日本語り芸の系譜図">
         <p id="diagram-status" class="sr-only" aria-live="polite">系統図を読み込んでいます。</p>
         <div class="diagram-toolbar">
           <p class="scroll-hint">図を上下左右に動かせます</p>
-          <button id="diagram-home" class="diagram-home" type="button" aria-label="系譜図を初期位置に戻す" title="系譜図を初期位置に戻す"><span aria-hidden="true">↺</span> 全体</button>
+          <button id="diagram-home" class="diagram-home" type="button" aria-label="系譜図全体を表示領域に収める" title="系譜図全体を表示" aria-pressed="false"><span aria-hidden="true">↺</span> 全体</button>
         </div>
+        <div id="year-header" class="year-header" role="group" aria-label="系譜図の年代" hidden></div>
         <div class="diagram-scroll" tabindex="0" aria-label="日本語り芸の系譜図。上下左右にスクロールできます。">
           <div id="diagram-host" class="diagram-host"></div>
         </div>
