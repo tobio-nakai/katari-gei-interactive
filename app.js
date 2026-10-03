@@ -210,52 +210,6 @@
   new ResizeObserver(updateViewport).observe(diagramScroll);
   window.addEventListener("resize", updateViewport);
 
-  function splitSekkyobushiNote() {
-    const kojoruri = svg.querySelector("#kojoruri");
-    const box = kojoruri?.querySelector('[id^="kojoruri-narrative-box_"]');
-    const noteBox = kojoruri?.querySelector('[id^="sekkyobushi-note-box_"]');
-    const noteText = kojoruri?.querySelector('[id^="sekkyobushi-note-text_"]');
-    if (!box || !noteBox || !noteText || !nodes["sekkyo-bushi"]) return null;
-
-    // Keep Illustrator's elements and coordinates; split only the live DOM.
-    const note = document.createElementNS(svg.namespaceURI, "g");
-    note.id = "sekkyo-bushi-note";
-    const annotation = document.createElementNS(svg.namespaceURI, "g");
-    annotation.setAttribute("pointer-events", "none");
-    const opening = kojoruri.querySelector('[id^="kojoruri-parenthesis-open_"]');
-    const ending = kojoruri.querySelector('[id^="kojoruri-note-text_"]');
-    if (opening) annotation.append(opening);
-    note.append(noteBox, noteText);
-    if (ending) annotation.append(ending);
-    kojoruri.after(annotation, note);
-
-    const mainBox = box.getBBox();
-    const smallBox = noteBox.getBBox();
-    const horizontalBoundary = (mainBox.x + mainBox.width + smallBox.x) / 2;
-    const mainBounds = { right: horizontalBoundary };
-    const noteBounds = { left: horizontalBoundary };
-    // Nearby rows leave less than 44px of space: favor distinct targets over overlap.
-    const gidayu = svg.querySelector("#gidayu");
-    const gidayuBox = gidayu?.querySelector('[id^="gidayu-narrative-box_"]')?.getBBox();
-    if (gidayuBox) {
-      const bottom = (smallBox.y + smallBox.height + gidayuBox.y) / 2;
-      mainBounds.bottom = bottom;
-      noteBounds.bottom = bottom;
-      hitBounds.set(gidayu, { top: bottom });
-    }
-    const kato = svg.querySelector("#katobushi");
-    const katoBox = kato?.querySelector('[id^="katobushi-narrative-box_"]')?.getBBox();
-    if (katoBox) {
-      const top = (katoBox.y + katoBox.height + smallBox.y) / 2;
-      noteBounds.top = top;
-      noteBounds.right = (smallBox.x + smallBox.width + katoBox.x) / 2;
-      hitBounds.set(kato, { bottom: top });
-    }
-    hitBounds.set(kojoruri, mainBounds);
-    hitBounds.set(note, noteBounds);
-    return note;
-  }
-
   function hitRectangle(group, minimumSize = 44) {
     const box = group.getBBox();
     const padding = 12;
@@ -358,39 +312,75 @@
     });
   }
 
-  function separateCategoryHitAreas(extraNode) {
-    const groups = Object.keys(nodes).map((id) => svg.querySelector(`#${CSS.escape(id)}`)).filter(Boolean);
-    if (extraNode) groups.push(extraNode);
-    categories.forEach(({ group }) => {
-      const headingBox = group.getBBox();
-      groups.forEach((node) => {
-        const a = hitRectangle(group, 0);
-        const b = hitRectangle(node);
-        if (a.right <= b.left || b.right <= a.left || a.bottom <= b.top || b.bottom <= a.top) return;
-        const nodeBox = node.getBBox();
-        const headingBounds = hitBounds.get(group) || {};
-        const nodeBounds = hitBounds.get(node) || {};
-        // Partition only overlapping padding, keeping both visible labels intact.
-        if (headingBox.y + headingBox.height <= nodeBox.y) {
-          const edge = (headingBox.y + headingBox.height + nodeBox.y) / 2;
-          headingBounds.bottom = Math.min(headingBounds.bottom ?? Infinity, edge);
-          nodeBounds.top = Math.max(nodeBounds.top ?? -Infinity, edge);
-        } else if (nodeBox.y + nodeBox.height <= headingBox.y) {
-          const edge = (nodeBox.y + nodeBox.height + headingBox.y) / 2;
-          headingBounds.top = Math.max(headingBounds.top ?? -Infinity, edge);
-          nodeBounds.bottom = Math.min(nodeBounds.bottom ?? Infinity, edge);
-        } else if (headingBox.x + headingBox.width <= nodeBox.x) {
-          const edge = (headingBox.x + headingBox.width + nodeBox.x) / 2;
-          headingBounds.right = Math.min(headingBounds.right ?? Infinity, edge);
-          nodeBounds.left = Math.max(nodeBounds.left ?? -Infinity, edge);
-        } else if (nodeBox.x + nodeBox.width <= headingBox.x) {
-          const edge = (nodeBox.x + nodeBox.width + headingBox.x) / 2;
-          headingBounds.left = Math.max(headingBounds.left ?? -Infinity, edge);
-          nodeBounds.right = Math.min(nodeBounds.right ?? Infinity, edge);
+  function separateInactiveLabelHitAreas() {
+    const labels = [...svg.querySelectorAll(":scope > g")].filter((group) =>
+      !nodes[group.id] && !group.classList.contains("interactive-category") && group.querySelector("text"));
+    Object.keys(nodes).forEach((id) => {
+      const group = svg.querySelector(`#${CSS.escape(id)}`);
+      if (!group) return;
+      const box = group.getBBox();
+      labels.forEach((label) => {
+        const other = label.getBBox();
+        const area = hitRectangle(group);
+        if (area.right <= other.x || area.left >= other.x + other.width
+          || area.bottom <= other.y || area.top >= other.y + other.height) return;
+        const bounds = hitBounds.get(group) || {};
+        // Protect noninteractive labels without moving or clipping visible node text.
+        if (box.y + box.height <= other.y) {
+          bounds.bottom = Math.min(bounds.bottom ?? Infinity, (box.y + box.height + other.y) / 2);
+        } else if (box.y >= other.y + other.height) {
+          bounds.top = Math.max(bounds.top ?? -Infinity, (other.y + other.height + box.y) / 2);
+        } else if (box.x + box.width <= other.x) {
+          bounds.right = Math.min(bounds.right ?? Infinity, (box.x + box.width + other.x) / 2);
+        } else if (box.x >= other.x + other.width) {
+          bounds.left = Math.max(bounds.left ?? -Infinity, (other.x + other.width + box.x) / 2);
         }
-        hitBounds.set(group, headingBounds);
-        hitBounds.set(node, nodeBounds);
+        hitBounds.set(group, bounds);
       });
+    });
+  }
+
+  function separateHitAreas(group, node, minimumSize = 44) {
+    const firstBox = group.getBBox();
+    const a = hitRectangle(group, minimumSize);
+    const b = hitRectangle(node);
+    if (a.right <= b.left || b.right <= a.left || a.bottom <= b.top || b.bottom <= a.top) return;
+    const nodeBox = node.getBBox();
+    const firstBounds = hitBounds.get(group) || {};
+    const nodeBounds = hitBounds.get(node) || {};
+    // Partition only overlapping padding, keeping both visible labels intact.
+    if (firstBox.y + firstBox.height <= nodeBox.y) {
+      const edge = (firstBox.y + firstBox.height + nodeBox.y) / 2;
+      firstBounds.bottom = Math.min(firstBounds.bottom ?? Infinity, edge);
+      nodeBounds.top = Math.max(nodeBounds.top ?? -Infinity, edge);
+    } else if (nodeBox.y + nodeBox.height <= firstBox.y) {
+      const edge = (nodeBox.y + nodeBox.height + firstBox.y) / 2;
+      firstBounds.top = Math.max(firstBounds.top ?? -Infinity, edge);
+      nodeBounds.bottom = Math.min(nodeBounds.bottom ?? Infinity, edge);
+    } else if (firstBox.x + firstBox.width <= nodeBox.x) {
+      const edge = (firstBox.x + firstBox.width + nodeBox.x) / 2;
+      firstBounds.right = Math.min(firstBounds.right ?? Infinity, edge);
+      nodeBounds.left = Math.max(nodeBounds.left ?? -Infinity, edge);
+    } else if (nodeBox.x + nodeBox.width <= firstBox.x) {
+      const edge = (nodeBox.x + nodeBox.width + firstBox.x) / 2;
+      firstBounds.left = Math.max(firstBounds.left ?? -Infinity, edge);
+      nodeBounds.right = Math.min(nodeBounds.right ?? Infinity, edge);
+    }
+    hitBounds.set(group, firstBounds);
+    hitBounds.set(node, nodeBounds);
+  }
+
+  function separateNodeHitAreas() {
+    const groups = Object.keys(nodes).map((id) => svg.querySelector(`#${CSS.escape(id)}`)).filter(Boolean);
+    groups.forEach((group, index) => {
+      groups.slice(index + 1).forEach((other) => separateHitAreas(group, other));
+    });
+  }
+
+  function separateCategoryHitAreas() {
+    const groups = Object.keys(nodes).map((id) => svg.querySelector(`#${CSS.escape(id)}`)).filter(Boolean);
+    categories.forEach(({ group }) => {
+      groups.forEach((node) => separateHitAreas(group, node, 0));
       makeHitArea(group, 0);
     });
   }
@@ -566,9 +556,10 @@
       host.replaceChildren(document.importNode(svg, true));
       svg = host.querySelector("svg");
       prepareYearHeader();
-      const sekkyobushiNote = splitSekkyobushiNote();
       prepareCategories();
-      separateCategoryHitAreas(sekkyobushiNote);
+      separateInactiveLabelHitAreas();
+      separateNodeHitAreas();
+      separateCategoryHitAreas();
       Object.entries(nodes || {}).forEach(([id, node]) => {
         try {
           prepareInteractiveNode(id, node);
@@ -578,7 +569,6 @@
           console.warn(`Could not prepare SVG node: ${id}`, error);
         }
       });
-      if (sekkyobushiNote) prepareInteractiveNode("sekkyo-bushi", nodes["sekkyo-bushi"], sekkyobushiNote);
       status.textContent = "系統図を読み込みました。声明、義太夫節、浪曲を選択できます。";
     } catch (error) {
       host.innerHTML = '<p class="load-error">系統図を読み込めませんでした。ページを再読み込みしてください。</p>';

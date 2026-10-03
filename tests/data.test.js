@@ -39,6 +39,37 @@ test("accepts quoted empty values and a final record without a newline", async (
   assert.equal(nodes.a.period, "");
 });
 
+test("aliases share live content and media while keeping SVG relationships separate", async () => {
+  const files = { ...fixtures,
+    "./data/nodes.csv": 'id,name,period,summary,data_id\na,芸能,古代〜,紹介文,\nalias,,,,a\nchain,,,,alias\n',
+    "./data/edges.csv": fixtures["./data/edges.csv"] + 'alias,edge,alias-edge\n'
+  };
+  const nodes = await loader(files)();
+  assert.equal(nodes.alias.dataId, "a");
+  assert.equal(nodes.chain.dataId, "a");
+  assert.equal(nodes.alias.name, nodes.a.name);
+  assert.equal(nodes.alias.youtubeId, nodes.a.youtubeId);
+  assert.deepEqual(Array.from(nodes.alias.relatedEdges), ["alias-edge"]);
+  assert.deepEqual(Array.from(nodes.a.relatedEdges), ["a-b"]);
+  assert.deepEqual(Array.from(nodes.chain.relatedEdges), []);
+  nodes.a.summary = "更新した紹介文";
+  nodes.a.youtubeUrl = "https://example.com/replacement";
+  assert.equal(nodes.alias.summary, nodes.a.summary);
+  assert.equal(nodes.chain.youtubeUrl, nodes.a.youtubeUrl);
+});
+
+test("rejects missing or cyclic aliases and duplicated content or media", async () => {
+  for (const rows of ['alias,,,,missing\n', 'alias,,,,chain\nchain,,,,alias\n', 'alias,重複,年代,文,a\n']) {
+    await assert.rejects(loader({ ...fixtures,
+      "./data/nodes.csv": 'id,name,period,summary,data_id\na,芸能,古代〜,紹介文,\n' + rows
+    })(), /nodes\.csv/);
+  }
+  await assert.rejects(loader({ ...fixtures,
+    "./data/nodes.csv": 'id,name,period,summary,data_id\na,芸能,古代〜,紹介文,\nalias,,,,a\n',
+    "./data/media.csv": fixtures["./data/media.csv"] + 'alias,youtube,id,url\n'
+  })(), /media\.csv/);
+});
+
 test("rejects malformed CSV and reports the source file", async () => {
   for (const csv of ['id,name,period,summary\na,芸能,古代〜,"未完', 'id,name,period,summary\na,芸能,古代〜,"文章"x', 'id,name,period,summary\na,芸能,古代〜,文"章', 'id,name,period,summary\na,芸能,古代〜,文章,余分']) {
     await assert.rejects(loader({ ...fixtures, "./data/nodes.csv": csv })(), /nodes\.csv/);

@@ -89,9 +89,14 @@
       readCSV("./data/media.csv", ["node_id", "service", "video_id", "url"])
     ]);
     const nodes = Object.create(null);
+    const aliases = new Map();
     if (!nodeRows.length) throw new Error("data/nodes.csv: 項目がありません。");
     for (const row of nodeRows) {
-      if (!row.id || !row.name || nodes[row.id]) throw new Error(`data/nodes.csv: IDまたは名前が空、またはIDが重複しています (${row.id})。`);
+      if (!row.id || (!row.name && !row.data_id) || nodes[row.id]) throw new Error(`data/nodes.csv: IDまたは名前が空、またはIDが重複しています (${row.id})。`);
+      if (row.data_id) {
+        if (row.name || row.period || row.summary) throw new Error(`data/nodes.csv: aliasの内容は参照先だけで管理してください (${row.id})。`);
+        aliases.set(row.id, row.data_id);
+      }
       nodes[row.id] = {
         name: row.name,
         period: row.period,
@@ -111,12 +116,27 @@
     }
     for (const row of mediaRows) {
       const node = nodes[row.node_id];
-      if (!node || row.service !== "youtube" || !row.video_id || !row.url || node.youtubeId) {
+      if (!node || aliases.has(row.node_id) || row.service !== "youtube" || !row.video_id || !row.url || node.youtubeId) {
         throw new Error(`data/media.csv: 不正または重複した動画データです (${row.node_id})。`);
       }
       node.youtubeId = row.video_id;
       node.youtubeUrl = row.url;
     }
+    function resolveDataId(id, visited = new Set()) {
+      if (!nodes[id]) throw new Error(`data/nodes.csv: aliasの参照先がありません (${id})。`);
+      if (visited.has(id)) throw new Error(`data/nodes.csv: aliasが循環しています (${id})。`);
+      if (!aliases.has(id)) return id;
+      visited.add(id);
+      return resolveDataId(aliases.get(id), visited);
+    }
+    aliases.forEach((target, id) => {
+      const dataId = resolveDataId(id);
+      Object.defineProperty(nodes[id], "dataId", { value: dataId, enumerable: true });
+      // Share content by reference; highlight arrays remain owned by the SVG ID.
+      ["name", "period", "summary", "youtubeId", "youtubeUrl"].forEach((field) => {
+        Object.defineProperty(nodes[id], field, { get: () => nodes[dataId][field], enumerable: true });
+      });
+    });
     window.KATARI_NODES = nodes;
     return nodes;
   };

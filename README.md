@@ -57,11 +57,13 @@ SVGを `fetch` して操作可能な状態で読み込むため、`index.html` �
 
 | ファイル | 列 | 用途 |
 | --- | --- | --- |
-| `data/nodes.csv` | `id,name,period,summary` | 表示名・年代・解説 |
+| `data/nodes.csv` | `id,name,period,summary,data_id` | 詳細表示名・年代・解説・任意の内容参照先 |
 | `data/media.csv` | `node_id,service,video_id,url` | YouTube動画IDと外部リンク。`service` は `youtube` |
 | `data/edges.csv` | `selection_id,target_type,target_id` | 選択時に強調するSVG ID。`target_type` は `node` または `edge` |
 
 紹介文などにカンマ・改行・引用符を含める場合はフィールド全体をダブルクォートで囲み、内部の `"` は `""` と書きます。UTF-8のBOM、LF・CRLFに対応しています。列名を維持し、ノードIDと関連対象IDには実在するSVG IDを使ってください。関連性はCSVに記録したものだけを使用します。
+
+`id`はSVG上の選択対象です。内容を共有する行では`data_id`に正本のIDを指定し、`name,period,summary`は空欄にします。例えば`kojoruri-sekkyo,,,,sekkyo-bushi`は、`sekkyo-bushi`の詳細名・年代・解説と動画を参照します。動画は正本の行だけを`media.csv`に登録してください。`edges.csv`の関係は各SVG IDで個別に管理し、参照先から引き継ぎません。`name`は詳細表示用で、SVG内の文字は書き換えません。`data_id`列がない従来CSVも読み込めます。
 
 CSVは `./data/` の相対パスで取得するため、GitHub Pagesのサブディレクトリ配信にも対応します。読み込みや形式に問題がある場合は、画面に失敗を表示し、コンソールにファイル名と原因を出します。
 
