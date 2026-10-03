@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>日本語り芸の系譜｜声明から浄瑠璃・義太夫・浪曲へ</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="page-header">
+        <h1>日本語り芸の系譜</h1>
+        <p class="intro">声明から浄瑠璃、文楽・歌舞伎音楽、浪曲へ。日本の語り芸のつながりを、解説と参考動画とともにたどる系譜図です。</p>
+      </header>
+
+      <section class="diagram-section" aria-label="日本語り芸の系譜図">
+        <p id="diagram-status" class="sr-only" aria-live="polite">系統図を読み込んでいます。</p>
+        <div class="diagram-toolbar">
+          <p class="scroll-hint">図を上下左右に動かせます</p>
+          <button id="diagram-home" class="diagram-home" type="button" aria-label="系譜図全体を表示領域に収める" title="系譜図全体を表示" aria-pressed="false"><span aria-hidden="true">↺</span> 全体</button>
+        </div>
+        <div id="year-header" class="year-header" role="group" aria-label="系譜図の年代" hidden></div>
+        <div class="diagram-scroll" tabindex="0" aria-label="日本語り芸の系譜図。上下左右にスクロールできます。">
+          <div id="diagram-host" class="diagram-host"></div>
+        </div>
+      </section>
+
+      <section class="source-note" aria-labelledby="source-note-title">
+        <h2 id="source-note-title">原図について</h2>
+        <p>本図は、『解説書／音と映像による日本古典芸能大系　映像解説編』（岸辺成雄監修）所収の「日本古典芸能系統図」をもとに、語り芸に関係する項目を中心に再構成・加筆したものです。</p>
+        <p>系譜関係については原図を基礎とし、Web版では項目の整理、解説、参考動画、インタラクティブ表示を追加しています。</p>
+      </section>
+
+      <section id="detail-sheet" class="detail-sheet" aria-labelledby="detail-name" aria-hidden="true" inert>
+        <div class="sheet-top">
+          <button id="sheet-handle" class="sheet-handle" type="button" aria-label="詳細パネルを展開" aria-expanded="false" aria-controls="sheet-content"><span aria-hidden="true"></span></button>
+          <div class="sheet-heading">
+            <div>
+              <h2 id="detail-name"></h2>
+              <p id="detail-period" class="detail-period"></p>
+            </div>
+            <button id="sheet-close" class="sheet-close" type="button" aria-label="選択を解除して詳細パネルを閉じる">×</button>
+          </div>
+        </div>
+        <div id="sheet-content" class="sheet-content">
+          <p id="detail-summary" class="detail-summary"></p>
+          <div id="sheet-media" class="sheet-media" hidden>
+            <div id="video-frame" class="video-frame"></div>
+            <a id="youtube-link" class="youtube-link" href="#" target="_blank" rel="noopener noreferrer">YouTubeで開く <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        <button id="sheet-toggle" class="sheet-toggle" type="button" aria-expanded="false" aria-controls="sheet-content">詳細を見る ↑</button>
+      </section>
+    </main>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
