@@ -28,7 +28,6 @@
 	.st22{fill:none;stroke:#181715;stroke-width:2.7;}
 	.st23{fill:#FAF9F7;stroke:#4C4740;stroke-width:1.2;}
 	.st24{font-size:19.5px;}
-	.st25{enable-background:new    ;}
 </style>
 <path class="st0" d="M1389.6,767.6h-338.7c-6.8,0-12.4,5.5-12.4,12.4v80.3V878v30.8c0,6.7,5.4,12.2,12.2,12.2h164.1
 	c12.7,0,22.9-10.3,22.9-22.9l0,0c0-11.1,9-20,20.1-20h129.6c12,0,21.7-9.7,21.7-21.7v-69.1C1409.1,776.3,1400.4,767.6,1389.6,767.6z
@@ -132,7 +131,7 @@
 <line id="grid-2050_00000024002415059568114540000016474148232214876305_" class="st10" x1="1489.1" y1="121.3" x2="1489.1" y2="1066.7"/>
 <rect id="chart-frame_00000144311590894770647420000001311375550265956244_" x="95" y="121.3" class="st13" width="1440" height="945.4"/>
 <rect id="outer-frame_00000109739137137846091410000018086742370333809343_" x="19" y="16.5" class="st14" width="1582.4" height="1159.5"/>
-<text id="nihon-koten-geino-keitouzu_00000171679897829212591570000000225593386501543056_" transform="matrix(1 0 0 1 66.4568 58.1318)" class="st9 st11 st15">【 声明から文楽・歌舞伎・浪曲へ：日本語り芸の系譜 】</text>
+<text id="nihon-koten-geino-keitouzu_00000171679897829212591570000000225593386501543056_" transform="matrix(1 0 0 1 66.4568 58.1318)" class="st9 st11 st15">【 声明から浄瑠璃・文楽・歌舞伎音楽・浪曲へ】</text>
 <text transform="matrix(1 0 0 1 174.545 575.7792)" class="st9 st11 st16">〈仏教芸能</text>
 <text transform="matrix(1 0 0 1 274.545 575.7192)" class="st9 st11 st17">〉</text>
 <text transform="matrix(1 0 0 1 590.5305 681.6956)" class="st9 st11 st16">〈人形芝居の展開</text>
@@ -413,5 +412,6 @@
 	<path id="dash-monogatari-sekkyo-junction-line_00000106868049372804865310000003237260447725977475_" class="st8" d="M432.5,601.2
 		h13"/>
 </g>
-<text id="rokyoku_x5F_naniwabushi" transform="matrix(1 0 0 1 1066.3597 899.1685)" class="st25"><tspan x="0" y="0" class="st9 st11 st16">〈浪曲・浪花節</tspan><tspan x="140" y="0" class="st9 st11 st17">〉</tspan></text>
+<text transform="matrix(1 0 0 1 1066.3597 898.4708)" class="st9 st11 st16">〈浪曲・浪花節</text>
+<text transform="matrix(1 0 0 1 1206.3597 898.4108)" class="st9 st11 st17">〉</text>
 </svg>

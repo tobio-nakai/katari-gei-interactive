@@ -59,6 +59,11 @@ h1 { margin: 0; font-family: "Yu Mincho", YuMincho, serif; font-size: clamp(32px
 .diagram-host svg .is-related polygon { fill: var(--accent) !important; }
 .load-error { padding: 80px 30px; text-align: center; }
 
+.source-note { max-width: 800px; margin-top: 24px; padding: 20px 24px; border: 1px solid #e5e1d8; border-radius: 12px; background: #fafaf8; color: var(--muted); font-size: 13px; line-height: 1.9; }
+.source-note h2 { margin: 0 0 10px; font-size: 14px; font-weight: 600; }
+.source-note p { margin: 0; }
+.source-note p + p { margin-top: 12px; }
+
 .detail-sheet {
   position: fixed;
   z-index: 10;
@@ -132,6 +137,7 @@ body.has-sheet .page-shell { padding-bottom: calc(360px + 40px); }
   h1 { font-size: clamp(28px, 3.5vw, 47.25px); }
   .intro { margin-top: 6px; font-size: 14px; line-height: 1.7; }
   .diagram-section { padding: 8px 12px 12px; }
+  .source-note { margin-top: 20px; padding: 16px; }
   .scroll-hint { font-size: 11px; }
   .year-label { font-size: 14px; }
   .diagram-host { min-width: 980px; }
