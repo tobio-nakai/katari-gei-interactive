@@ -5,7 +5,7 @@ const vm = require("node:vm");
 
 const source = fs.readFileSync(require.resolve("../data.js"), "utf8");
 const fixtures = {
-  "./data/nodes.csv": 'id,name,period,summary\na,芸能,古代〜,紹介文\n',
+  "./data/nodes.csv": 'id,name,period,summary\na,芸能,古代〜,紹介文\nb,別芸能,,\n',
   "./data/edges.csv": 'selection_id,target_type,target_id\na,node,b\na,edge,a-b\n',
   "./data/media.csv": 'node_id,service,video_id,url\na,youtube,video-id,https://example.com/video\n'
 };
@@ -28,20 +28,20 @@ test("joins the three CSVs without inferring relationships", async () => {
 test("preserves Japanese, commas, escaped quotes, CRLF and multiline fields", async () => {
   const summary = '日本語, "引用"\r\n次の行';
   const nodes = await loader({ ...fixtures,
-    "./data/nodes.csv": '\uFEFFid,name,period,summary\r\na,"芸能",古代〜,"日本語, ""引用""\r\n次の行"\r\n\r\n'
+    "./data/nodes.csv": '\uFEFFid,name,period,summary\r\na,"芸能",古代〜,"日本語, ""引用""\r\n次の行"\r\nb,別芸能,,\r\n\r\n'
   })();
   assert.equal(nodes.a.summary, summary);
 });
 
 test("accepts quoted empty values and a final record without a newline", async () => {
-  const nodes = await loader({ ...fixtures, "./data/nodes.csv": 'id,name,period,summary\na,芸能,"",""' })();
+  const nodes = await loader({ ...fixtures, "./data/nodes.csv": 'id,name,period,summary\na,芸能,"",""\nb,別芸能,,' })();
   assert.equal(nodes.a.summary, "");
   assert.equal(nodes.a.period, "");
 });
 
 test("aliases share live content and media while keeping SVG relationships separate", async () => {
   const files = { ...fixtures,
-    "./data/nodes.csv": 'id,name,period,summary,data_id\na,芸能,古代〜,紹介文,\nalias,,,,a\nchain,,,,alias\n',
+    "./data/nodes.csv": 'id,name,period,summary,data_id\na,芸能,古代〜,紹介文,\nb,別芸能,,,\nalias,,,,a\nchain,,,,alias\n',
     "./data/edges.csv": fixtures["./data/edges.csv"] + 'alias,edge,alias-edge\n'
   };
   const nodes = await loader(files)();
@@ -58,14 +58,32 @@ test("aliases share live content and media while keeping SVG relationships separ
   assert.equal(nodes.chain.youtubeUrl, nodes.a.youtubeUrl);
 });
 
+test("rejects unknown node targets with the target and selection IDs", async () => {
+  await assert.rejects(loader({ ...fixtures,
+    "./data/edges.csv": 'selection_id,target_type,target_id\na,node,not-exist\n'
+  })(), /data\/edges\.csv references unknown node: not-exist \(selection_id: a\)/);
+});
+
+test("accepts existing nodes and aliases as independent relationship targets", async () => {
+  const nodes = await loader({ ...fixtures,
+    "./data/nodes.csv": 'id,name,period,summary,data_id\na,芸能,古代〜,紹介文,\nb,別芸能,,,\nalias,,,,a\n',
+    "./data/edges.csv": 'selection_id,target_type,target_id\na,node,b\na,node,alias\nalias,node,b\na,edge,svg-only-edge\n'
+  })();
+  assert.deepEqual(Array.from(nodes.a.relatedNodes), ["b", "alias"]);
+  assert.deepEqual(Array.from(nodes.alias.relatedNodes), ["b"]);
+  assert.deepEqual(Array.from(nodes.a.relatedEdges), ["svg-only-edge"]);
+  assert.equal(nodes.alias.dataId, "a");
+  assert.equal(nodes.alias.summary, nodes.a.summary);
+});
+
 test("rejects missing or cyclic aliases and duplicated content or media", async () => {
   for (const rows of ['alias,,,,missing\n', 'alias,,,,chain\nchain,,,,alias\n', 'alias,重複,年代,文,a\n']) {
     await assert.rejects(loader({ ...fixtures,
-      "./data/nodes.csv": 'id,name,period,summary,data_id\na,芸能,古代〜,紹介文,\n' + rows
+      "./data/nodes.csv": 'id,name,period,summary,data_id\na,芸能,古代〜,紹介文,\nb,別芸能,,,\n' + rows
     })(), /nodes\.csv/);
   }
   await assert.rejects(loader({ ...fixtures,
-    "./data/nodes.csv": 'id,name,period,summary,data_id\na,芸能,古代〜,紹介文,\nalias,,,,a\n',
+    "./data/nodes.csv": 'id,name,period,summary,data_id\na,芸能,古代〜,紹介文,\nb,別芸能,,,\nalias,,,,a\n',
     "./data/media.csv": fixtures["./data/media.csv"] + 'alias,youtube,id,url\n'
   })(), /media\.csv/);
 });

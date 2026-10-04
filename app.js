@@ -150,6 +150,10 @@
     const box = svg.viewBox.baseVal;
     const minimum = Math.min(diagramScroll.clientWidth / box.width, diagramScroll.clientHeight / box.height);
     const normalWidth = Math.max(diagramScroll.clientWidth, window.matchMedia("(max-width: 700px)").matches ? 980 : 1000);
+    // Touch devices can enlarge small labels; desktop keeps its existing limit.
+    if (window.matchMedia("(pointer: coarse)").matches) {
+      return { minimum, maximum: Math.max(minimum * 5, normalWidth / box.width * 5) };
+    }
     return { minimum, maximum: Math.max(minimum * 4, normalWidth / box.width) };
   }
 
@@ -388,7 +392,7 @@
 
   function setVideo(node) {
     videoFrame.replaceChildren();
-    if (node.youtubeId) {
+    if (node.youtubeId && node.youtubeUrl) {
       const iframe = document.createElement("iframe");
       iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(node.youtubeId)}`;
       iframe.title = `${node.name}の参考動画`;
@@ -483,7 +487,9 @@
     detailName.textContent = node.name;
     detailPeriod.textContent = node.period;
     detailSummary.textContent = node.summary;
-    youtubeLink.href = node.youtubeUrl;
+    youtubeLink.hidden = !node.youtubeUrl;
+    if (node.youtubeUrl) youtubeLink.href = node.youtubeUrl;
+    else youtubeLink.removeAttribute("href");
     selectedNodeId = id;
     selectedNodeGroup = selected;
     setExpanded(false);

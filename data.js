@@ -112,6 +112,9 @@
       if (!node || !row.target_id || !["node", "edge"].includes(row.target_type)) {
         throw new Error(`data/edges.csv: 不正な関連データです (${row.selection_id}, ${row.target_type}, ${row.target_id})。`);
       }
+      if (row.target_type === "node" && !nodes[row.target_id]) {
+        throw new Error(`data/edges.csv references unknown node: ${row.target_id} (selection_id: ${row.selection_id})`);
+      }
       node[row.target_type === "node" ? "relatedNodes" : "relatedEdges"].push(row.target_id);
     }
     for (const row of mediaRows) {

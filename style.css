@@ -113,6 +113,7 @@ h1 { margin: 0; font-family: "Yu Mincho", YuMincho, serif; font-size: clamp(32px
 .video-placeholder { display: grid; place-content: center; height: 100%; padding: 20px; color: #e8e3da; text-align: center; }
 .youtube-link { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; margin: 8px 0 16px; color: var(--accent-dark); font-size: 14px; font-weight: 500; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 .youtube-link span { color: inherit; font-family: "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif; }
+.youtube-link[hidden] { display: none; }
 button:focus-visible, a:focus-visible, .diagram-scroll:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
 body.has-sheet .page-shell { padding-bottom: calc(360px + 40px); }
 @media (hover: hover) and (pointer: fine) {
@@ -172,3 +173,23 @@ body.has-sheet .page-shell { padding-bottom: calc(360px + 40px); }
 
 .diagram-scroll.is-zoomed .diagram-host { display: grid; place-items: center; min-width: 0; }
 .diagram-scroll.is-zoomed svg { max-width: none; max-height: none; }
+
+/* Readable touch UI, including phones held in landscape. */
+@media (max-width: 700px), (max-width: 1000px) and (pointer: coarse) {
+  .intro, .diagram-instructions { font-size: 16px; line-height: 1.75; }
+  .scroll-hint { font-size: 14px; line-height: 1.6; }
+  .diagram-home { min-width: 44px; min-height: 44px; font-size: 16px; }
+  .source-note { font-size: 16px; line-height: 1.8; }
+  .source-note h2 { font-size: 18px; }
+  .sheet-heading > div { min-width: 0; }
+  .sheet-heading h2 { font-size: 24px; overflow-wrap: anywhere; }
+  .detail-period { font-size: 16px; line-height: 1.6; }
+  .detail-summary,
+  .detail-sheet:not(.is-expanded) .detail-summary { font-size: 17px; line-height: 1.75; }
+  .detail-sheet:not(.is-expanded) { height: auto; max-height: 88vh; max-height: 88dvh; }
+  .detail-sheet:not(.is-expanded) .sheet-content { flex: 0 1 auto; margin-top: 8px; }
+  .detail-sheet:not(.is-expanded) .detail-summary { -webkit-line-clamp: 2; }
+  .sheet-toggle { min-width: 44px; min-height: 44px; font-size: 17px; }
+  .youtube-link { min-width: 44px; min-height: 44px; font-size: 17px; }
+  .video-placeholder { font-size: 16px; }
+}
