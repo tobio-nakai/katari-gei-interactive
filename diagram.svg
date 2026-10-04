@@ -68,11 +68,11 @@
 	<polygon id="dash-bunraku-takemoto-arrow-end" class="st9" points="
 		1276.1,422.6 1280.6,432.7 1271.6,432.7 	"/>
 </g>
-<g id="dash-monogatari-sekkyo-junction_00000097458580854323607500000002247559357465083555_">
-	<path id="dash-monogatari-sekkyo-junction-line_00000134971677200439401650000006204265520580475526_" class="st8" d="M523.8,897.3
+<g id="dash-monogatari-biwa-sekkyo-kojoruri-junction">
+	<path id="dash-monogatari-biwa-sekkyo-kojoruri-junction-line" class="st8" d="M523.8,897.3
 		h13V603.2"/>
 	
-		<polygon id="dash-monogatari-sekkyo-junction-arrow-end_00000088839865198006029380000008202533919113294987_" class="st9" points="
+		<polygon id="dash-monogatari-biwa-sekkyo-kojoruri-junction-arrow-end" class="st9" points="
 		536.8,594.6 541.3,605.2 532.3,605.2 	"/>
 </g>
 <g id="dash-koshiki-monogatari-heike-junction">
