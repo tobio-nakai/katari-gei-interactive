@@ -65,6 +65,20 @@ h1 { margin: 0; font-family: "Yu Mincho", YuMincho, serif; font-size: clamp(32px
 .source-note p { margin: 0; }
 .source-note p + p { margin-top: 12px; }
 
+.site-footer { width: min(1480px, calc(100% - 48px)); margin: 0 auto; padding: 24px 0 48px; border-top: 1px solid var(--line); color: var(--muted); font-size: 16px; line-height: 1.8; overflow-wrap: anywhere; }
+.footer-content { max-width: 800px; }
+.site-footer h2 { margin: 0 0 12px; color: var(--ink); font-size: 20px; font-weight: 600; }
+.site-footer p { margin: 0 0 16px; }
+.footer-social { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; }
+.footer-social a { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 6px; color: var(--muted); }
+.footer-social svg { display: block; width: 24px; height: 24px; }
+.footer-social a:hover, .footer-social a:focus-visible { color: var(--accent-dark); background: rgb(155 41 72 / 6%); }
+.footer-reference { margin: 24px 0 16px; }
+.footer-reference h3 { margin: 0 0 8px; color: var(--ink); font-size: 17px; font-weight: 600; }
+@media (max-width: 700px) {
+  .site-footer { width: calc(100% - 24px); padding: 24px 4px 40px; }
+}
+
 .detail-sheet {
   position: fixed;
   z-index: 10;
