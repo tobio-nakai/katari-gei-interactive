@@ -1,0 +1,10 @@
+{
+  "name": "katari-gei-interactive",
+  "version": "1.0.0",
+  "private": true,
+  "description": "日本語り芸の系譜図インタラクティブ版",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js"
+  }
+}

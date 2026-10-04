@@ -1,0 +1,70 @@
+# 日本語り芸の系譜 — インタラクティブ版
+
+完成済みの `diagram.svg` をブラウザー上へインラインで読み込み、SVG内部の要素を操作する静的サイトのプロトタイプです。
+
+## プレビュー方法
+
+```bash
+npm start
+```
+
+起動後に `http://localhost:4173` を開いてください。プレビュー環境から指定される `PORT` / `HOST` 環境変数にも対応しています。依存パッケージはないため、事前の `npm install` は不要です。
+
+SVGを `fetch` して操作可能な状態で読み込むため、`index.html` を `file://` で直接開くのではなく、上記のプレビューサーバー経由で表示してください。
+
+## SVG調査結果
+
+- ルートの `viewBox` は `0 0 1630 1200`。
+- 背景領域は `path`、年代軸は `line`、芸能名は主に `g` 内の `text` で構成されています。
+- 系譜の矢印は、名称付きの `g` の中に線本体の `path` と矢尻の `polygon` を置く構造です（一部の補助要素は `path` のみ）。
+- 芸能名のグループには識別可能なIDがありましたが、Illustrator由来の長い数値サフィックスが付いていました。元の座標・形状・色・文字・系譜は変えず、主要グループと今回使用する矢印のIDだけを短い安定IDに整理しました。
+- クリック範囲は実行時に各対象のバウンディングボックスより12 SVG単位広い透明矩形を追加し、元SVGには形状を追加していません。
+
+## 主要項目ID
+
+| ID | 表示名 |
+| --- | --- |
+| `shomyo` | 声明 |
+| `koshiki` | 講式 |
+| `sekkyo` | 説教 |
+| `sekkyo-bushi` | 説経節 |
+| `saimon` | 祭文 |
+| `kadotsuke-saimon` | 門付祭文 |
+| `hoyo-biwa` | 法要琵琶 |
+| `monogatari-biwa` | 物語琵琶 |
+| `heike-biwa` | 平家琵琶 |
+| `kojoruri` | 古浄瑠璃 |
+| `gidayu` | 義太夫節 |
+| `itchubushi` | 一中節 |
+| `katobushi` | 河東節 |
+| `bungobushi` | 豊後節 |
+| `tokiwazu` | 常磐津節 |
+| `kiyomoto` | 清元節 |
+| `nagauta` | 長唄 |
+| `takemoto` | 竹本 |
+| `ningyo-shibai` | 人形芝居 |
+| `bunraku` | 文楽 |
+| `rokyoku` | 浪曲（図の区分見出しは「浪曲・浪花節」） |
+
+## プロトタイプの実装方針
+
+`data/` 内の3つのCSVに声明・義太夫節・浪曲の表示情報、関連ノード、関連線を明示します。`data.js` がCSVを読み込み、完了後に `app.js` がSVGと操作を初期化します。`app.js` はSVGを `fetch` してDOMへインライン挿入し、この対応表だけを使って選択対象と線を強調します。関連性は座標やID名から自動判定しません。未選択要素は薄くし、単一の動画領域と解説欄の内容を選択ごとに差し替えます。
+
+
+## 動画・解説データ
+
+編集対象は以下のUTF-8 CSVです。データはJavaScriptと二重管理しません。
+
+| ファイル | 列 | 用途 |
+| --- | --- | --- |
+| `data/nodes.csv` | `id,name,period,summary,data_id` | 詳細表示名・年代・解説・任意の内容参照先 |
+| `data/media.csv` | `node_id,service,video_id,url` | YouTube動画IDと外部リンク。`service` は `youtube` |
+| `data/edges.csv` | `selection_id,target_type,target_id` | 選択時に強調するSVG ID。`target_type` は `node` または `edge` |
+
+紹介文などにカンマ・改行・引用符を含める場合はフィールド全体をダブルクォートで囲み、内部の `"` は `""` と書きます。UTF-8のBOM、LF・CRLFに対応しています。列名を維持し、ノードIDと関連対象IDには実在するSVG IDを使ってください。関連性はCSVに記録したものだけを使用します。
+
+`id`はSVG上の選択対象です。内容を共有する行では`data_id`に正本のIDを指定し、`name,period,summary`は空欄にします。例えば`kojoruri-sekkyo,,,,sekkyo-bushi`は、`sekkyo-bushi`の詳細名・年代・解説と動画を参照します。動画は正本の行だけを`media.csv`に登録してください。`edges.csv`の関係は各SVG IDで個別に管理し、参照先から引き継ぎません。`name`は詳細表示用で、SVG内の文字は書き換えません。`data_id`列がない従来CSVも読み込めます。
+
+CSVは `./data/` の相対パスで取得するため、GitHub Pagesのサブディレクトリ配信にも対応します。読み込みや形式に問題がある場合は、画面に失敗を表示し、コンソールにファイル名と原因を出します。
+
+CSV読み込み処理のテストは `node --test tests/data.test.js` で実行できます。
