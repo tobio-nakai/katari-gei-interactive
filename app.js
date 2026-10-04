@@ -41,6 +41,7 @@
   let sheetGesture = null;
   let diagramGesture = null;
   let suppressDiagramClick = false;
+  let wheelClickUntil = 0;
   let suppressSheetClick = false;
 
   function syncYearHeader() {
@@ -674,22 +675,23 @@
   document.addEventListener("pointerup", finishDiagramGesture);
   diagramScroll.addEventListener("pointercancel", finishDiagramGesture);
   diagramScroll.addEventListener("wheel", (event) => {
-    if (event.ctrlKey || event.metaKey) {
-      if (!svg) return;
-      event.preventDefault();
-      const center = { x: event.clientX, y: event.clientY };
-      const anchor = zoomAnchor(center);
-      diagramScroll.style.height = `${diagramScroll.getBoundingClientRect().height}px`;
-      zoomAt(anchor.scale * Math.exp(-event.deltaY * .01), anchor.world, center);
-    } else if (fitView) {
-      leaveFitView();
-    }
+    const modified = event.ctrlKey || event.metaKey;
+    if (!svg || !svg.contains(event.target) || !event.deltaY || touchPointers.size) return;
+    if (!modified && !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    event.preventDefault();
+    const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? diagramScroll.clientHeight : 1;
+    const delta = Math.max(-100, Math.min(100, event.deltaY * unit));
+    const center = { x: event.clientX, y: event.clientY };
+    const anchor = zoomAnchor(center);
+    diagramScroll.style.height = `${diagramScroll.getBoundingClientRect().height}px`;
+    zoomAt(anchor.scale * Math.exp(-delta * (modified ? .01 : .0015)), anchor.world, center);
+    wheelClickUntil = performance.now() + 160;
   }, { passive: false });
   diagramScroll.addEventListener("keydown", (event) => {
     if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "PageUp", "PageDown"].includes(event.key)) leaveFitView();
   });
   diagramScroll.addEventListener("click", (event) => {
-    if ((suppressDiagramClick || pinchSequence || pinchGesture) && event.detail !== 0) {
+    if ((suppressDiagramClick || pinchSequence || pinchGesture || performance.now() < wheelClickUntil) && event.detail !== 0) {
       event.preventDefault();
       event.stopPropagation();
       return;
