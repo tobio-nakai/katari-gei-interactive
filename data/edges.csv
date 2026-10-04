@@ -35,8 +35,6 @@ kojoruri,node,gidayu
 kojoruri,edge,solid-kojoruri-gidayu
 gidayu,node,kojoruri
 gidayu,edge,solid-kojoruri-gidayu
-kojoruri,edge,solid-kojoruri-gidayu-arrow
-gidayu,edge,solid-kojoruri-gidayu-arrow
 itchubushi,node,bungobushi
 itchubushi,edge,solid-itchu-bungo_00000142890486133142828720000001832541595721296561_
 bungobushi,node,itchubushi
@@ -61,10 +59,10 @@ tomimoto,node,kiyomoto
 tomimoto,edge,solid-tomimoto-kiyomoto_00000160178968906739763240000003744999371461908868_
 kiyomoto,node,tomimoto
 kiyomoto,edge,solid-tomimoto-kiyomoto_00000160178968906739763240000003744999371461908868_
-gidayu,node,takemoto
-gidayu,edge,dash-gidayu-takemoto-branch
-takemoto,node,gidayu
-takemoto,edge,dash-gidayu-takemoto-branch
+bunraku,node,takemoto
+bunraku,edge,dash-bunraku-takemoto
+takemoto,node,bunraku
+takemoto,edge,dash-bunraku-takemoto
 gidayu,node,bunraku
 gidayu,edge,solid-gidayu-bunraku-junction
 bunraku,node,gidayu
@@ -89,3 +87,10 @@ monogatari-biwa,node,heike-biwa
 monogatari-biwa,edge,solid-monogatari-heike_00000021814224305732479130000014716452944981872808_
 heike-biwa,node,monogatari-biwa
 heike-biwa,edge,solid-monogatari-heike_00000021814224305732479130000014716452944981872808_
+sekkyo,node,sekkyo-bushi
+sekkyo,edge,dash-sekkyo-sekkyo-bushi
+sekkyo,edge,dash-sekkyo-sekkyo-bushi-arrow-render
+sekkyo-bushi,node,sekkyo
+sekkyo-bushi,edge,dash-sekkyo-sekkyo-bushi
+sekkyo-bushi,edge,dash-sekkyo-sekkyo-bushi-arrow-render
+koshiki,edge,dash-koshiki-monogatari-heike-junction

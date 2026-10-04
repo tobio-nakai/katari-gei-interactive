@@ -62,10 +62,10 @@
 	<path id="buddhist-blind-overlap-shape_00000021805364863000084490000001115693414842082199_" class="st7" d="M256.7,888.9h305.4
 		v32H256.7c-11.1,0-16.7-5.3-16.7-16S245.6,888.9,256.7,888.9z"/>
 </g>
-<g id="dash-gidayu-takemoto-branch">
-	<path id="dash-gidayu-takemoto-branch-line_00000080896622645711147540000010127919209056952248_" class="st8" d="M1276.1,702.8
+<g id="dash-bunraku-takemoto">
+	<path id="dash-bunraku-takemoto-line" class="st8" d="M1276.1,702.8
 		V422.6"/>
-	<polygon id="dash-gidayu-takemoto-branch-arrow-end_00000083797578607542043600000010183687364774472360_" class="st9" points="
+	<polygon id="dash-bunraku-takemoto-arrow-end" class="st9" points="
 		1276.1,422.6 1280.6,432.7 1271.6,432.7 	"/>
 </g>
 <g id="dash-monogatari-sekkyo-junction_00000097458580854323607500000002247559357465083555_">
@@ -75,14 +75,20 @@
 		<polygon id="dash-monogatari-sekkyo-junction-arrow-end_00000088839865198006029380000008202533919113294987_" class="st9" points="
 		536.8,594.6 541.3,605.2 532.3,605.2 	"/>
 </g>
-<g id="dash-monogatari-sekkyo-junction_00000127751503517735111430000012726619866496779649_">
-	<path id="dash-monogatari-sekkyo-junction-line_00000019652695470671228870000016746567436711447483_" class="st8" d="M508.4,973.6
+<g id="dash-koshiki-monogatari-heike-junction">
+	<path id="dash-koshiki-monogatari-heike-junction-line" class="st8" d="M508.4,973.6
 		h122.1v-69.2"/>
-	<path id="dash-monogatari-sekkyo-junction-line_00000096780615421265365710000014008229429332474756_" class="st8" d="
-		M1062.3,793.5l-616.8-0.2V603.2"/>
 	
-		<polygon id="dash-monogatari-sekkyo-junction-arrow-end_00000174559872678364531550000014847813205672084158_" class="st9" points="
+		<polygon id="dash-koshiki-monogatari-heike-junction-arrow-end" class="st9" points="
 		630.5,907.4 635,910.5 626,910.5 	"/>
+</g>
+<g id="dash-sekkyo-sekkyo-bushi">
+	<path id="dash-sekkyo-sekkyo-bushi-line" class="st8" d="
+		M1062.3,793.5l-616.8-0.2V603.2"/>
+	<defs>
+		<polygon id="dash-sekkyo-sekkyo-bushi-arrow-end" class="st9" points="
+		1062.3,793.5 1053.7,798 1053.7,789 	"/>
+	</defs>
 </g>
 <line id="grid-600_00000041995923125672379450000008617216798588170408_" class="st10" x1="95" y1="121.3" x2="95" y2="1066.7"/>
 <text id="year-600_00000067219800921988337300000012891721416482456247_" transform="matrix(1 0 0 1 78.545 106.8513)" class="st9 st11 st12">600</text>
@@ -401,10 +407,8 @@
 	
 		<text id="koshiki-text_00000094577562093356810760000006483284038862137990_" transform="matrix(1 0 0 1 460.045 978.3335)" class="st9 st11 st17">講式</text>
 </g>
-<g id="solid-kojoruri-gidayu-arrow">
-	<polygon id="solid-kojoruri-gidayu-arrow-end_00000171682184814877225220000015843930369275224223_" class="st9" points="
-		1062.3,793.5 1053.7,798 1053.7,789 	"/>
-</g>
+<!-- Preserve the arrow's original paint order over the grid. -->
+<use id="dash-sekkyo-sekkyo-bushi-arrow-render" xlink:href="#dash-sekkyo-sekkyo-bushi-arrow-end"/>
 <path id="dash-monogatari-sekkyo-junction-line_00000076566490090548503350000001722762552069683093_" class="st8" d="M445.5,603.2"
 	/>
 <path id="dash-monogatari-sekkyo-junction-line_00000054980086248166238980000001182903441411453335_" class="st8" d="M432,603.2"/>
